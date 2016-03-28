@@ -11,16 +11,16 @@ export const invalidateSubreddit = createAction(INVALIDATE_SUBREDDIT)
 export const requestPosts = createAction(REQUEST_POSTS)
 export const receivePosts = createAction(RECEIVE_POSTS)
 
-function fetchPosts (subreddit) {
+function fetchPosts(subreddit) {
   return dispatch => {
-    dispatch(requestPosts({ subreddit }))
+    dispatch(requestPosts({subreddit}))
     return fetch(`https://www.reddit.com/r/${subreddit}.json`)
-      .then(req => req.json())
-      .then(json => dispatch(receivePosts({ subreddit, json })))
+        .then(req => req.json())
+        .then(json => dispatch(receivePosts({subreddit, json})))
   }
 }
 
-function shouldFetchPosts (state, subreddit) {
+function shouldFetchPosts(state, subreddit) {
   const posts = state.postsBySubreddit[subreddit] || []
 
   if (!posts.length) return true
@@ -28,7 +28,7 @@ function shouldFetchPosts (state, subreddit) {
   else return posts.didInvalidate
 }
 
-export function fetchPostsIfNeeded (subreddit) {
+export function fetchPostsIfNeeded(subreddit) {
   return (dispatch, getState) => {
     if (shouldFetchPosts(getState(), subreddit)) {
       return dispatch(fetchPosts(subreddit))

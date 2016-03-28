@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>angular</title>
+</head>
+<body ng-controller="MainController as ctrl">
+<div id="container">
+    <span>
+        <h1>{{ctrl.state.selectedSubreddit}}</h1>
+         <select ng-options="subreddit for subreddit in ctrl.subreddits"
+                 ng-change="ctrl.selectSubreddit(ctrl.state.selectedSubreddit)"
+                 ng-model="ctrl.state.selectedSubreddit">
+         </select>
+    </span>
+
+    <p>Last updated at
+        {{ ctrl.state.subreddits[ctrl.state.selectedSubreddit].lastUpdated | date:'medium' }}
+    </p>
+    <button ng-click="ctrl.selectSubreddit(ctrl.state.selectedSubreddit)">Refresh</button>
+    <ul>
+        <li ng-repeat="post in ctrl.state.subreddits[ctrl.state.selectedSubreddit].items">
+            {{post.title}}
+        </li>
+    </ul>
+</div>
+<script src="/bundle.js"></script>
+</body>
+</html>
